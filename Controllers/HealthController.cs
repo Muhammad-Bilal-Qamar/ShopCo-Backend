@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ShopCoAPI.Controllers
 {
@@ -8,8 +8,9 @@ namespace ShopCoAPI.Controllers
     {
         private static readonly DateTime StartedAtUtc = DateTime.UtcNow;
 
-        // GET /api/health
+        // GET /api/health and HEAD /api/health
         [HttpGet]
+        [HttpHead]
         public IActionResult Get()
         {
             var uptime = DateTime.UtcNow - StartedAtUtc;
