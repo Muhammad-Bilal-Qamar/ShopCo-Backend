@@ -14,22 +14,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapibuilder
+
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSignalR(); // Registers SignalR services
 
-// Configure CORS
-var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
-    ?? Array.Empty<string>();
-
+// Configure CORS (Updated to dynamically allow your Vercel frontend and credentials)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", policy =>
     {
-        policy.WithOrigins(allowedOrigins)
+        policy.SetIsOriginAllowed(_ => true) // Dynamically allows any frontend origin (Vercel, localhost, etc.)
               .AllowAnyHeader()
               .AllowAnyMethod()
-              .AllowCredentials(); // Essential for SignalR connections with auth
+              .AllowCredentials(); // Essential for SignalR connections and auth tokens
     });
 });
 
